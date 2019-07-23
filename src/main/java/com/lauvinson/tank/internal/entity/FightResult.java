@@ -1,11 +1,12 @@
 package com.lauvinson.tank.internal.entity;
 
-/**
- * TODO 返回
- * created by vinson on 2018/11/30
- **/
-public class Result<T> {
+import java.util.List;
 
+/**
+ * TODO 开展result
+ * created by vinson on 2018/12/3
+ **/
+public class FightResult<T> {
     private final static String SUCCESS_CODE = "0";
     private final static String SUCCESS_MSG = "succeeded";
 
@@ -13,33 +14,33 @@ public class Result<T> {
     private String action;
     private String msg;
     private Boolean ok;
+    private List<FightTank> data;
 
-    private Result(Builder builder) {
+    public static FightResult ok(String action, List<FightTank> data) {
+        return FightResult.newBuilder().action(action).code(SUCCESS_CODE).msg(SUCCESS_MSG).ok(true).data(data).build();
+    }
+
+    private FightResult(Builder builder) {
         setCode(builder.code);
         setAction(builder.action);
         setMsg(builder.msg);
         setOk(builder.ok);
+        setData(builder.data);
     }
-
-    public static Result ok(String action) {
-        return Result.newBuilder().action(action).code(SUCCESS_CODE).msg(SUCCESS_MSG).ok(true).build();
-    }
-
-
 
     public static Builder newBuilder() {
         return new Builder();
     }
 
-    public static Builder newBuilder(Result copy) {
+    public static Builder newBuilder(FightResult copy) {
         Builder builder = new Builder();
         builder.code = copy.getCode();
         builder.action = copy.getAction();
         builder.msg = copy.getMsg();
         builder.ok = copy.getOk();
+        builder.data = copy.getData();
         return builder;
     }
-
 
     public String getCode() {
         return code;
@@ -73,12 +74,29 @@ public class Result<T> {
         this.ok = ok;
     }
 
+    public List<FightTank> getData() {
+        return data;
+    }
 
-    public static final class Builder<T> {
+    public void setData(List<FightTank> data) {
+        this.data = data;
+    }
+
+    public FightResult(String code, String action, String msg, Boolean ok, List<FightTank> data) {
+        this.code = code;
+        this.action = action;
+        this.msg = msg;
+        this.ok = ok;
+        this.data = data;
+    }
+
+
+    public static final class Builder {
         private String code;
         private String action;
         private String msg;
         private Boolean ok;
+        private List<FightTank> data;
 
         private Builder() {
         }
@@ -103,8 +121,13 @@ public class Result<T> {
             return this;
         }
 
-        public Result build() {
-            return new Result(this);
+        public Builder data(List<FightTank> val) {
+            data = val;
+            return this;
+        }
+
+        public FightResult build() {
+            return new FightResult(this);
         }
     }
 }

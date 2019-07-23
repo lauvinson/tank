@@ -1,8 +1,11 @@
 package com.lauvinson.tank.open.api
 
 import com.fasterxml.jackson.databind.SerializationFeature
+import com.lauvinson.tank.internal.entity.FightResult
 import com.lauvinson.tank.internal.entity.RequestInit
 import com.lauvinson.tank.internal.entity.Result
+import com.lauvinson.tank.internal.service.Fight
+import com.lauvinson.tank.internal.service.FightService
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -22,7 +25,7 @@ fun Application.module() {
     }
     routing {
         route("/player") {
-            
+            val fightService: Fight = FightService()
             /**
              * TODO 初始化接口
              * created by vinson on 2018-11-30
@@ -30,7 +33,7 @@ fun Application.module() {
             post(path = "/init") {
                 val post = call.receiveOrNull(RequestInit::class)
                 post?.let { it1 -> print(it1) }
-                call.respond(Result.ok("/player/init"))
+                call.respond(fightService.setInit("/player/init",post))
             }
 
             /**
@@ -40,7 +43,7 @@ fun Application.module() {
             post(path = "/action") {
                 val post = call.receiveOrNull(RequestInit::class)
                 post?.let { it1 -> print(it1) }
-                call.respond(Result.ok("/player/action"))
+                call.respond(fightService.getAction("/player/action",post))
             }
         }
     }

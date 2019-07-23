@@ -6,7 +6,7 @@ import java.util.List;
  * TODO 请求参数中的视野 view
  * created by vinson on 2018/11/30
  **/
-class View {
+public class View {
     private String name;
     private String rowLen;
     private String colLen;

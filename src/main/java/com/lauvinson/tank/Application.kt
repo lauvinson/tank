@@ -6,6 +6,6 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 
 
-fun main(args: Array<String>) {
+fun main() {
     embeddedServer(Netty, 5970, watchPaths = listOf("BlogAppKt"), module = Application::module).start()
 }
